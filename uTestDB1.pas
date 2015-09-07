@@ -25,6 +25,15 @@ type
     procedure TestDB1_2;
   end;
 
+  TTestDB2 = class(TTestCase)
+  public
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestDB2_1;
+    procedure TestDB2_2;
+  end;
+
 implementation
 
 uses
@@ -73,6 +82,31 @@ begin
   inherited;
 end;
 
+{ TTestDB2 }
+
+procedure TTestDB2.SetUp;
+begin
+  inherited;
+  CheckTrue(TDBConnection.Connected, 'Not connected to DB!');
+end;
+
+procedure TTestDB2.TearDown;
+begin
+  inherited;
+
+end;
+
+procedure TTestDB2.TestDB2_1;
+begin
+  CheckTrue(True);
+end;
+
+procedure TTestDB2.TestDB2_2;
+begin
+  CheckTrue(True);
+end;
+
 initialization
   RegisterTest(TTestDBSetup.Create(TTestDB1.Suite));
+  RegisterTest(TTestDBSetup.Create(TTestDB2.Suite));
 end.
