@@ -108,5 +108,5 @@ end;
 
 initialization
   RegisterTest(TTestDBSetup.Create(TTestDB1.Suite));
-  RegisterTest(TTestDBSetup.Create(TTestDB2.Suite));
+  RegisterTest('Setup decorator ((d) TTestDB1)', TTestDB2.Suite);
 end.
