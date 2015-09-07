@@ -15,7 +15,9 @@ program habr_dunit_demo;
 {$ENDIF}
 
 uses
-  DUnitTestRunner;
+  DUnitTestRunner,
+  uTestedDBClass,
+  uTestDB1;
 
 {$R *.RES}
 
