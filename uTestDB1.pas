@@ -106,7 +106,13 @@ begin
   CheckTrue(True);
 end;
 
+function DBSuite: ITestSuite;
+begin
+  Result := TTestSuite.Create('DB tests');
+  Result.AddTest(TTestDB1.Suite);
+  Result.AddTest(TTestDB2.Suite);
+end;
+
 initialization
-  RegisterTest(TTestDBSetup.Create(TTestDB1.Suite));
-  RegisterTest('Setup decorator ((d) TTestDB1)', TTestDB2.Suite);
+  RegisterTest(TTestDBSetup.Create(DBSuite));
 end.
