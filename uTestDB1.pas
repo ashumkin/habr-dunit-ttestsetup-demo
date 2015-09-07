@@ -4,9 +4,18 @@ interface
 
 uses
   Classes,
-  TestFramework;
+  TestFramework, TestExtensions;
 
 type
+  TTestDBSetup = class(TTestSetup)
+  public
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    // this method is not executed (for TTestSetup)
+    procedure TestDBSetupTest;
+  end;
+
   TTestDB1 = class(TTestCase)
   public
     procedure SetUp; override;
@@ -27,12 +36,10 @@ uses
 procedure TTestDB1.SetUp;
 begin
   inherited;
-  TDBConnection.Connect;
 end;
 
 procedure TTestDB1.TearDown;
 begin
-  TDBConnection.Disconnect;
   inherited;
 end;
 
@@ -48,6 +55,25 @@ begin
   CheckTrue(True);
 end;
 
+{ TTestDBSetup }
+
+procedure TTestDBSetup.TestDBSetupTest;
+begin
+  CheckTrue(True);
+end;
+
+procedure TTestDBSetup.SetUp;
+begin
+  inherited;
+  TDBConnection.Connect;
+end;
+
+procedure TTestDBSetup.TearDown;
+begin
+  TDBConnection.Disconnect;
+  inherited;
+end;
+
 initialization
-  RegisterTest(TTestDB1.Suite);
+  RegisterTest(TTestDBSetup.Create(TTestDB1.Suite));
 end.
