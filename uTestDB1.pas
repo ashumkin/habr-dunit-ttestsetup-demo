@@ -8,9 +8,16 @@ uses
 
 type
   TTestDBSetup = class(TTestSetup, ITestSuite)
+  protected
+    function CountTestsInterfaces: Integer;
+    function CountEnabledTestInterfaces: Integer;
   public
     procedure SetUp; override;
     procedure TearDown; override;
+
+    function CountTestCases: Integer; override;
+    function CountEnabledTestCases: Integer; override;
+
     function GetName: string; override;
     procedure RunTest(ATestResult: TTestResult); override;
     procedure AddTest(test: ITest);
@@ -84,6 +91,41 @@ begin
   Assert(Assigned(test));
 
   FTests.Add(test);
+end;
+
+function TTestDBSetup.CountEnabledTestCases: Integer;
+begin
+  Result := inherited;
+  if Enabled then
+    Inc(Result, CountEnabledTestInterfaces);
+end;
+
+function TTestDBSetup.CountEnabledTestInterfaces: Integer;
+var
+  i: Integer;
+begin
+  Result := 0;
+  // skip FIRST test case (it is FTest)
+  for i := 1 to FTests.Count - 1 do
+    if (FTests[i] as ITest).Enabled then
+      Inc(Result, (FTests[i] as ITest).CountEnabledTestCases);
+end;
+
+function TTestDBSetup.CountTestCases: Integer;
+begin
+  Result := inherited;
+  if Enabled then
+    Inc(Result, CountTestsInterfaces);
+end;
+
+function TTestDBSetup.CountTestsInterfaces: Integer;
+var
+  i: Integer;
+begin
+  Result := 0;
+  // skip FIRST test case (it is FTest)
+  for i := 1 to FTests.Count - 1 do
+    Inc(Result, (FTests[i] as ITest).CountTestCases);
 end;
 
 function TTestDBSetup.GetName: string;
