@@ -7,11 +7,13 @@ uses
   TestFramework, TestExtensions;
 
 type
-  TTestDBSetup = class(TTestSetup)
+  TTestDBSetup = class(TTestSetup, ITestSuite)
   public
     procedure SetUp; override;
     procedure TearDown; override;
     function GetName: string; override;
+    procedure AddTest(test: ITest);
+    procedure AddSuite(suite : ITestSuite);
   published
     // this method is not executed (for TTestSetup)
     procedure TestDBSetupTest;
@@ -69,6 +71,18 @@ end;
 procedure TTestDBSetup.TestDBSetupTest;
 begin
   CheckTrue(True);
+end;
+
+procedure TTestDBSetup.AddSuite(suite: ITestSuite);
+begin
+  AddTest(suite);
+end;
+
+procedure TTestDBSetup.AddTest(test: ITest);
+begin
+  Assert(Assigned(test));
+
+  FTests.Add(test);
 end;
 
 function TTestDBSetup.GetName: string;

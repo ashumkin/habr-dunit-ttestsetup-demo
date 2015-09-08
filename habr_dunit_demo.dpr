@@ -17,7 +17,8 @@ program habr_dunit_demo;
 uses
   DUnitTestRunner,
   uTestedDBClass,
-  uTestDB1;
+  uTestDB1,
+  uTestDB3;
 
 {$R *.RES}
 
