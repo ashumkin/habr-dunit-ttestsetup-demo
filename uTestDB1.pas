@@ -12,6 +12,7 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
     function GetName: string; override;
+    procedure RunTest(ATestResult: TTestResult); override;
     procedure AddTest(test: ITest);
     procedure AddSuite(suite : ITestSuite);
   published
@@ -88,6 +89,16 @@ end;
 function TTestDBSetup.GetName: string;
 begin
   Result := FTestName;
+end;
+
+procedure TTestDBSetup.RunTest(ATestResult: TTestResult);
+var
+  i: Integer;
+begin
+  inherited;
+  // skip FIRST test case (it is FTest)
+  for i := 1 to FTests.Count - 1 do
+    (FTests[i] as ITest).RunWithFixture(ATestResult);
 end;
 
 procedure TTestDBSetup.SetUp;
