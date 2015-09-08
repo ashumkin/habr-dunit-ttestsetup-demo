@@ -11,6 +11,7 @@ type
   public
     procedure SetUp; override;
     procedure TearDown; override;
+    function GetName: string; override;
   published
     // this method is not executed (for TTestSetup)
     procedure TestDBSetupTest;
@@ -70,6 +71,11 @@ begin
   CheckTrue(True);
 end;
 
+function TTestDBSetup.GetName: string;
+begin
+  Result := FTestName;
+end;
+
 procedure TTestDBSetup.SetUp;
 begin
   inherited;
@@ -114,5 +120,5 @@ begin
 end;
 
 initialization
-  RegisterTest(TTestDBSetup.Create(DBSuite));
+  RegisterTest(TTestDBSetup.Create(DBSuite, 'DB'));
 end.
