@@ -95,7 +95,7 @@ end;
 
 function TTestDBSetup.CountEnabledTestCases: Integer;
 begin
-  Result := inherited;
+  Result := inherited CountEnabledTestCases;
   if Enabled then
     Inc(Result, CountEnabledTestInterfaces);
 end;
@@ -113,7 +113,7 @@ end;
 
 function TTestDBSetup.CountTestCases: Integer;
 begin
-  Result := inherited;
+  Result := inherited CountTestCases;
   if Enabled then
     Inc(Result, CountTestsInterfaces);
 end;

@@ -15,7 +15,12 @@ program habr_dunit_demo;
 {$ENDIF}
 
 uses
+  {$IF CompilerVersion >= 22}
   DUnitTestRunner,
+  {$ELSE}
+  TextTestRunner,
+  GUITestRunner,
+  {$IFEND}
   uTestedDBClass,
   uTestDB1,
   uTestDB3;
@@ -23,6 +28,13 @@ uses
 {$R *.RES}
 
 begin
+  {$IF CompilerVersion >= 22}
   DUnitTestRunner.RunRegisteredTests;
+  {$ELSE}
+  if IsConsole then
+    TextTestRunner.RunRegisteredTests
+  else
+    GUITestRunner.RunRegisteredTests;
+  {$IFEND}
 end.
 
